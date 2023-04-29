@@ -1,10 +1,9 @@
 *** Settings ***
-Library           RequestsLibrary
-Library    OperatingSystem
+Library    website_carbon_Library.py
 
 *** Variables ***
 ${browser}        chrome
-${url}    http://www.google.fr/
+${url}    https://www.ausy.fr/fr/
 ${time}    2
 @{search}    boulanger    pain    brioche    bonbon    Connexion
 
@@ -13,24 +12,11 @@ ${bearer}    E4F284BFADA11D01A52508ED7B92FFD7EE0905659F5DED06A4B73FC7739B48A2876
 
 *** Keywords ***
 Manipuler requete simple
-    ${response}     GET  https://www.google.com
-    Log To Console    ${response}
-
-manipuler requete avec bearer
-    Create Session    mysession    ${base_url}
-
-    ${header}    Create Dictionary    Authorization=${bearer}    Content-Type=text/xml
-    ${req_body}    Get File    resultat_api.txt
-
-    ${response}    Post Request    mysession    ${req_body}    ${header}
-
-    Log To Console    ${response.status_code}
-    Log To Console    ${response.content}
-
+    ${reponse}     website_carbon_Library.Recuperer La Consommation De La Page    url=${url}
+    Builtin.Log    message=${reponse}    
 
 *** Test Cases ***
 API
     Manipuler requete simple
-    manipuler requete avec bearer
 
 
